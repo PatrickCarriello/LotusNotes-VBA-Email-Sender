@@ -21,7 +21,7 @@ Probably the functions also work in other versions or just need a few changes.
 <h2>Using Functions</h2>
 
 <uh>
-<li><h4>SendEmail(subject As String, body As String, emails() As Variant)</h4></li>
+<li><strong>SendEmail(subject As String, body As String, emails() As Variant)</strong></li>
 
 <pre><code>Dim emailsendto() as String
 Dim counter as Integer
@@ -32,22 +32,22 @@ emailsendto(1) = "example@example.com"
 SendEmail "Hello", "Good Morning!", emailsendto</code></pre>
 
 
-<li><h4>SendEmailString(subject As String, body As String, emails As String)</h4></li>
+<li><strong>SendEmailString(subject As String, body As String, emails As String)</strong></li>
 
 <pre><code>SendEmailString "Hello", "Good Morning!", "me@email.com,example@example.com"</code></pre>
 
 
-<li><h4>SendEmailStringCC(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "")</h4></li>
+<li><strong>SendEmailStringCC(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "")</strong></li>
 
 <pre><code>SendEmailStringCC "Hello", "Good Morning!", "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com"</code></pre>
 
 
-<li><h4>SendEmailStringCCAttach(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "", Optional attachment As String = "")</h4></li>
+<li><strong>SendEmailStringCCAttach(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "", Optional attachment As String = "")</strong></li>
 
 <pre><code>SendEmailStringCCAttach "Hello", "Good Morning!", "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt"</code></pre>
 
 
-<li><h4>SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = False)</h4></li>
+<li><strong>SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = False)</strong></li>
 
 <pre><code>SendEmailStringHTML "Hello", "&lt;html&gt;&lt;body&gt;&lt;font size=""+5"" color=""red""&gt;Good Morning!&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;", _
   "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt", True</code></pre>
