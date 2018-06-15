@@ -13,6 +13,43 @@ All tests were done (and worked) in the following versions:
 <uh>
 <li>Microsoft Office 2013</li>
 <li>IBM Lotus Notes (now just a IBM Notes) 9</li>
+<li>Microsoft XML, v6.0</li>
 </uh>
 <br>
 Probably the functions also work in other versions or just need a few changes.
+
+<h2>Using Functions</h2>
+
+<uh>
+<li><h4>SendEmail(subject As String, body As String, emails() As Variant)</h4></li>
+
+<pre><code>Dim emailsendto() as String
+Dim counter as Integer
+counter = 2
+ReDim emailsendto(2)
+emailsendto(0) = "me@email.com"
+emailsendto(1) = "example@example.com"
+SendEmail "Hello", "Good Morning!", emailsendto</code></pre>
+
+
+<li><h4>SendEmailString(subject As String, body As String, emails As String)</h4></li>
+
+<pre><code>SendEmailString "Hello", "Good Morning!", "me@email.com,example@example.com"</code></pre>
+
+
+<li><h4>SendEmailStringCC(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "")</h4></li>
+
+<pre><code>SendEmailStringCC "Hello", "Good Morning!", "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com"</code></pre>
+
+
+<li><h4>SendEmailStringCCAttach(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "", Optional attachment As String = "")</h4></li>
+
+<pre><code>SendEmailStringCCAttach "Hello", "Good Morning!", "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt"</code></pre>
+
+
+<li><h4>SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = False)</h4></li>
+
+<pre><code>SendEmailStringHTML "Hello", "&lt;html&gt;&lt;body&gt;&lt;font size=""+5"" color=""red""&gt;Good Morning!&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;", _
+  "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt", True</code></pre>
+
+Note: <strong>SendEmailStringHTML</strong> function depends on the <strong>EncodeFile</strong> function (last function on the module). This one requires <strong>Microsoft XML, v6.0 (or v3.0)</strong> reference.
