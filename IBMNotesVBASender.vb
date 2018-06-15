@@ -1,4 +1,3 @@
-Attribute VB_Name = "MÛdulo1"
 Option Compare Database
 
 'Simple function for sending emails
@@ -244,7 +243,7 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
                         Case "GIF"
                             body = body & "<br><br><br><img src=""data:image/gif;base64," & EncodeFile(signaturelocation) & """/>"
                         Case Else
-                            'Arquivo n„o reconhecido
+                            'Arquivo n√£o reconhecido
                     End Select
                 End If
             Case 3 'Rich Text
