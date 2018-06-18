@@ -12,7 +12,7 @@ All tests were done (and worked) in the following versions:
 
 <uh>
 <li>Microsoft Office 2013</li>
-<li>IBM Lotus Notes (now just a IBM Notes) 9</li>
+<li>IBM Lotus Notes (now just IBM Notes) 9</li>
 <li>Microsoft XML, v6.0</li>
 </uh>
 <br>
