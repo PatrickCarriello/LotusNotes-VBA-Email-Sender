@@ -24,9 +24,9 @@ Probably the functions also work in other versions or just need a few changes.
 <li><strong>SendEmail(subject As String, body As String, emails() As Variant)</strong></li>
 
 <pre><code>Dim emailsendto() as String
-Dim counter as Integer
-counter = 2
-ReDim emailsendto(2)
+Dim index as Integer
+index = 2
+ReDim emailsendto(index)
 emailsendto(0) = "me@email.com"
 emailsendto(1) = "example@example.com"
 SendEmail "Hello", "Good Morning!", emailsendto</code></pre>
@@ -47,9 +47,9 @@ SendEmail "Hello", "Good Morning!", emailsendto</code></pre>
 <pre><code>SendEmailStringCCAttach "Hello", "Good Morning!", "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt"</code></pre>
 
 
-<li><strong>SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = False)</strong></li>
+<li><strong>SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = True, Optional save As Boolean = True, Optional editable As Boolean = False)</strong></li>
 
 <pre><code>SendEmailStringHTML "Hello", "&lt;html&gt;&lt;body&gt;&lt;font size=""+5"" color=""red""&gt;Good Morning!&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;", _
-  "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt", True</code></pre>
+  "me@email.com,example@example.com", "emailcc@copyto.com", "emailbcc@blindcopyto.com", "C:\folder1\folder2\file.txt", True, True, False</code></pre>
 
 Note: <strong>SendEmailStringHTML</strong> function depends on the <strong>EncodeFile</strong> function (last function on the module). This one requires <strong>Microsoft XML, v6.0 (or v3.0)</strong> reference.
