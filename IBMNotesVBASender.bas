@@ -1,13 +1,16 @@
 Option Compare Database
 
 'Simple function for sending emails
-Public Sub SendEmail(subject As String, body As String, emails() As Variant)
+Public Sub SendEmail(subject As String, body As String, emails() As String)
     
     Dim notesdb, notesdoc, notesrtf, notessession As Object
     Set notessession = CreateObject("Notes.Notessession")
     Set notesdb = notessession.GetDatabase("", "")
     notesdb.OpenMail
     Set notesdoc = notesdb.CreateDocument
+    'Uncomment next line to specify the sender
+    'Can also be a parameter of the function
+    'notesdoc.from = "sender@sender.com"
     notesdoc.subject = subject
     notesdoc.SendTo = emails
     Set notesrtf = notesdoc.CreateRichTextItem("body")
@@ -15,6 +18,10 @@ Public Sub SendEmail(subject As String, body As String, emails() As Variant)
     'Save message on sent items
     notesdoc.SaveMessageOnSend = True
     notesdoc.send False
+    
+    'Clean up
+    Set notesrtf = Nothing
+    Set notesdoc = Nothing
     Set notessession = Nothing
     Set notesdb = Nothing
     
@@ -22,6 +29,7 @@ End Sub
 
 'Another way informing recipients
 Public Sub SendEmailString(subject As String, body As String, emails As String)
+
     Dim emailsendto() As String
     Dim counter As Integer
     Dim matriz
@@ -30,6 +38,9 @@ Public Sub SendEmailString(subject As String, body As String, emails As String)
     Set notesdb = notessession.GetDatabase("", "")
     notesdb.OpenMail
     Set notesdoc = notesdb.CreateDocument
+    'Uncomment next line to specify the sender
+    'Can also be a parameter of the function
+    'notesdoc.from = "sender@sender.com"
     notesdoc.subject = subject
     
     matriz = Split(emails, ",")
@@ -46,6 +57,10 @@ Public Sub SendEmailString(subject As String, body As String, emails As String)
     'Save message on sent items
     notesdoc.SaveMessageOnSend = True
     notesdoc.send False
+    
+    'Clean up
+    Set notesrtf = Nothing
+    Set notesdoc = Nothing
     Set notessession = Nothing
     Set notesdb = Nothing
     
@@ -53,6 +68,7 @@ End Sub
 
 'Sending with Copy To and Blind Copy To
 Public Sub SendEmailStringCC(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "")
+
     Dim emailsendto() As String
     Dim counter As Integer
     Dim matriz
@@ -61,6 +77,9 @@ Public Sub SendEmailStringCC(subject As String, body As String, emails As String
     Set notesdb = notessession.GetDatabase("", "")
     notesdb.OpenMail
     Set notesdoc = notesdb.CreateDocument
+    'Uncomment next line to specify the sender
+    'Can also be a parameter of the function
+    'notesdoc.from = "sender@sender.com"
     notesdoc.subject = subject
     
     matriz = Split(emails, ",")
@@ -74,11 +93,16 @@ Public Sub SendEmailStringCC(subject As String, body As String, emails As String
     notesdoc.SendTo = emailsendto
     If Not emailCC = "" Then notesdoc.CopyTo = emailCC
     If Not emailBCC = "" Then notesdoc.BlindCopyTo = emailBCC
+    
     Set notesrtf = notesdoc.CreateRichTextItem("body")
     notesrtf.appendText body
     'Save message on sent items
     notesdoc.SaveMessageOnSend = True
     notesdoc.send False
+    
+    'Clean up
+    Set notesrtf = Nothing
+    Set notesdoc = Nothing
     Set notessession = Nothing
     Set notesdb = Nothing
     
@@ -86,6 +110,7 @@ End Sub
 
 'Sending with attachment
 Public Sub SendEmailStringCCAttach(subject As String, body As String, emails As String, Optional emailCC As String = "", Optional emailBCC As String = "", Optional attachment As String = "")
+
     Dim emailsendto() As String
     Dim counter As Integer
     Dim matriz
@@ -94,6 +119,9 @@ Public Sub SendEmailStringCCAttach(subject As String, body As String, emails As 
     Set notesdb = notessession.GetDatabase("", "")
     notesdb.OpenMail
     Set notesdoc = notesdb.CreateDocument
+    'Uncomment next line to specify the sender
+    'Can also be a parameter of the function
+    'notesdoc.from = "sender@sender.com"
     notesdoc.subject = subject
     
     matriz = Split(emails, ",")
@@ -121,6 +149,10 @@ Public Sub SendEmailStringCCAttach(subject As String, body As String, emails As 
     'Save message on sent items
     notesdoc.SaveMessageOnSend = True
     notesdoc.send False
+    
+    'Clean up
+    Set notesrtf = Nothing
+    Set notesdoc = Nothing
     Set notessession = Nothing
     Set notesdb = Nothing
     
@@ -143,15 +175,15 @@ End Sub
 'http://www-01.ibm.com/support/docview.wss?uid=swg21627014
 
 'Sending everything in HTML format with signature option
-Public Sub SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, Optional attachment As String, Optional signature As Boolean = False)
+Public Sub SendEmailStringHTML(subject As String, body As String, emails As String, Optional emailscc As String, Optional emailsbcc As String, _
+        Optional attachment As String, Optional signature As Boolean = True, Optional save As Boolean = True, Optional editable As Boolean = False)
+
     Dim notessession As Object
     Dim notesdb As Object
     Dim notesdoc As Object
     Dim notesbody As Object
     Dim notesheader As Object
     Dim notesstream As Object
-    'Dim notesmimefile As Object
-    'Dim notesmimeheader As Object
     
     Set notessession = CreateObject("Notes.NotesSession")
     Set notesdb = notessession.GetDatabase("", "")
@@ -183,7 +215,7 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
     End If
     
     'Set Attachment file
-    If Not anexo = "" Then
+    If Not attachment = "" Then
         Dim attachme As Object
         Dim embedobj As Object
         Set attachme = notesdoc.CreateRichTextItem("Attachment")
@@ -210,6 +242,7 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
                     Dim line As String
                     Dim i As Integer
                     
+                    'Get the file extension
                     Select Case UCase(Right(signaturelocation, 3))
                         Case "TXT"
                             body = body & "<br><br><br>"
@@ -219,7 +252,7 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
                             Do Until textfile.AtEndOfStream
                                 line = textfile.ReadLine
                                 'i = i + 1
-                                'MsgBox ThisLine
+                                'MsgBox line
                                 body = body & line & "<br>"
                             Loop
                             textfile.Close
@@ -230,7 +263,7 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
                             Do Until textfile.AtEndOfStream
                                 line = textfile.ReadLine
                                 'i = i + 1
-                                'MsgBox ThisLine
+                                'MsgBox line
                                 body = body & line
                             Loop
                             textfile.Close
@@ -238,12 +271,13 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
                             body = body & "<br><br><br><img src=""data:image/bmp;base64," & EncodeFile(signaturelocation) & """/>"
                         Case "JPG", "PGE"
                             body = body & "<br><br><br><img src=""data:image/jpg;base64," & EncodeFile(signaturelocation) & """/>"
-                        Case "PNG"
-                            body = body & "<br><br><br><img src=""data:image/png;base64," & EncodeFile(signaturelocation) & """/>"
                         Case "GIF"
                             body = body & "<br><br><br><img src=""data:image/gif;base64," & EncodeFile(signaturelocation) & """/>"
+                        'No support for PNG format yet
+                        'Case "PNG"
+                        '    body = body & "<br><br><br><img src=""data:image/png;base64," & EncodeFile(signaturelocation) & """/>"
                         Case Else
-                            'Arquivo não reconhecido
+                            'File not found
                     End Select
                 End If
             Case 3 'Rich Text
@@ -252,15 +286,29 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
     End If
     
     Call notesstream.WriteText(body)
-    Call notesbody.SetContentFromText(stream, "text/HTML;charset=UTF-8", ENC_NONE) 'ENC_NONE, ENC_IDENTITY_7BIT or ENC_IDENTITY_8BIT
+    Call notesbody.SetContentFromText(notesstream, "text/HTML;charset=UTF-8", ENC_NONE) 'ENC_NONE, ENC_IDENTITY_7BIT or ENC_IDENTITY_8BIT
     Call notesstream.Close
-    notesdoc.SaveMessageOnSend = True
-    Call notesdoc.send(False)
     notessession.convertMime = True 'Restore conversion - very important
-    'Call doc.Save(True, True)
-    'Make mail editable by user
-    'CreateObject("Notes.NotesUIWorkspace").EDITDOCUMENT True, doc
-    'Could send it here
+    
+    'Save message on sent items
+    notesdoc.SaveMessageOnSend = save
+    
+    If editable Then
+        'Make mail editable by user
+        Call notesdoc.save(True, True)
+        CreateObject("Notes.NotesUIWorkspace").EDITDOCUMENT True, notesdoc
+    Else
+        Call notesdoc.send(False)
+    End If
+    
+    'Restore conversion - very important
+    notessession.convertMime = True
+    
+    'Clean Up
+    Set notesdoc = Nothing
+    Set notesbody = Nothing
+    Set notesheader = Nothing
+    Set notesstream = Nothing
     Set notessession = Nothing
     Set notesdb = Nothing
     
@@ -304,3 +352,4 @@ Public Function EncodeFile(strPicPath As String) As String
     Set objStream = Nothing
 
 End Function
+
