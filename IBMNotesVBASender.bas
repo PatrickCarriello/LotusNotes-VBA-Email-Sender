@@ -288,7 +288,6 @@ Public Sub SendEmailStringHTML(subject As String, body As String, emails As Stri
     Call notesstream.WriteText(body)
     Call notesbody.SetContentFromText(notesstream, "text/HTML;charset=UTF-8", ENC_NONE) 'ENC_NONE, ENC_IDENTITY_7BIT or ENC_IDENTITY_8BIT
     Call notesstream.Close
-    notessession.convertMime = True 'Restore conversion - very important
     
     'Save message on sent items
     notesdoc.SaveMessageOnSend = save
